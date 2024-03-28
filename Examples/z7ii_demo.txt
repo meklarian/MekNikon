@@ -1,0 +1,16 @@
+connect z7ii
+set_aperture f/2
+set_iso 64
+loop:
+set_shutter 4
+capture
+set_shutter 2
+capture
+set_shutter 1
+capture
+set_shutter 1/2
+capture
+set_shutter 1/4
+capture
+set_shutter 1/8
+capture

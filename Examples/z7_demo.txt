@@ -1,0 +1,16 @@
+connect z7
+set_aperture f/5.6
+set_iso 200
+loop:
+set_shutter 4
+capture
+set_shutter 2
+capture
+set_shutter 1
+capture
+set_shutter 1/2
+capture
+set_shutter 1/4
+capture
+set_shutter 1/8
+capture

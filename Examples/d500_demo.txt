@@ -1,0 +1,12 @@
+connect d500
+set_aperture f/4
+set_iso 100
+loop:
+set_shutter 2
+capture
+set_shutter 1
+capture
+set_shutter 1/2
+capture
+set_shutter 1/4
+capture
