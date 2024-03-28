@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "NikonHub": {
+      "commandName": "Project",
+      "commandLineArgs": "z7ii_demo.txt z7_demo.txt d500_demo.txt"
+    }
+  }
+}
