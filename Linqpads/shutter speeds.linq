@@ -1,0 +1,45 @@
+<Query Kind="Statements" />
+
+Regex re = new Regex("^((1\\/\\d+\\.?\\d?)|(\\d(\\.\\d)?))[s]?", RegexOptions.IgnoreCase);
+Console.WriteLine(re.IsMatch("x"));
+Console.WriteLine(re.IsMatch("s"));
+Console.WriteLine(re.IsMatch("1"));
+Console.WriteLine(re.IsMatch("1s"));
+Console.WriteLine(re.IsMatch("1/s"));
+Console.WriteLine(re.IsMatch("1/5s"));
+Console.WriteLine(re.IsMatch("1.3"));
+Console.WriteLine(re.IsMatch("1.3s"));
+var m0 = re.Match(".1");
+Console.WriteLine(m0.Groups.Count);
+Console.WriteLine(m0.Groups[0].Value);
+var m1 = re.Match("\\");
+Console.WriteLine(m1.Groups.Count);
+Console.WriteLine(m1.Groups[0].Value);
+var m2 = re.Match("//");
+Console.WriteLine(m2.Groups.Count);
+Console.WriteLine(m2.Groups[0].Value);
+var m3 = re.Match("1//");
+Console.WriteLine(m3.Groups.Count);
+Console.WriteLine(m3.Groups[0].Value);
+var m4 = re.Match("1");
+Console.WriteLine(m4.Groups.Count);
+Console.WriteLine(m4.Groups[1].Value);
+var m5 = re.Match("1s");
+Console.WriteLine(m5.Groups.Count);
+Console.WriteLine(m5.Groups[1].Value);
+var m6 = re.Match("1/100");
+Console.WriteLine(m6.Groups.Count);
+Console.WriteLine(m6.Groups[1].Value);
+var m7 = re.Match("1/4000s");
+Console.WriteLine(m7.Groups.Count);
+Console.WriteLine(m7.Groups[1].Value);
+var m8 = re.Match("1.3s");
+Console.WriteLine(m8.Groups.Count);
+Console.WriteLine(m8.Groups[1].Value);
+var m9 = re.Match("1/1.3");
+Console.WriteLine(m9.Groups.Count);
+Console.WriteLine(m9.Groups[1].Value);
+var m10 = re.Match("1/1.3s");
+Console.WriteLine(m10.Groups.Count);
+Console.WriteLine(m10.Groups[1].Value);
+

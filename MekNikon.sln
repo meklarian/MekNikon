@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34316.72
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NikonCSWrapper", "NikonCSWrapper\NikonCSWrapper.csproj", "{B3448397-C794-4110-B974-5B0B2D8E8A45}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NikonConsoleDriver", "NikonConsoleDriver\NikonConsoleDriver.csproj", "{77E80F7A-BB50-4804-88AE-8D9180DA4EF3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NikonController", "NikonController\NikonController.csproj", "{EFCE2E58-0B1F-4789-B366-A158238DBB1D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NikonHub", "NikonHub\NikonHub.csproj", "{2367694A-07D4-488D-9CF3-209BB53DF31D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NikonScript", "NikonScript\NikonScript.csproj", "{9D8CD368-5BBB-427D-B0E9-4AC9149AF767}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Linqpads", "Linqpads", "{25F6E948-9B38-43A0-8D9C-9D4FBCF685AB}"
+	ProjectSection(SolutionItems) = preProject
+		Linqpads\apertures.linq = Linqpads\apertures.linq
+		Linqpads\isos.linq = Linqpads\isos.linq
+		Linqpads\shutter speeds.linq = Linqpads\shutter speeds.linq
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B3448397-C794-4110-B974-5B0B2D8E8A45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3448397-C794-4110-B974-5B0B2D8E8A45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3448397-C794-4110-B974-5B0B2D8E8A45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3448397-C794-4110-B974-5B0B2D8E8A45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77E80F7A-BB50-4804-88AE-8D9180DA4EF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77E80F7A-BB50-4804-88AE-8D9180DA4EF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77E80F7A-BB50-4804-88AE-8D9180DA4EF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77E80F7A-BB50-4804-88AE-8D9180DA4EF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFCE2E58-0B1F-4789-B366-A158238DBB1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFCE2E58-0B1F-4789-B366-A158238DBB1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFCE2E58-0B1F-4789-B366-A158238DBB1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFCE2E58-0B1F-4789-B366-A158238DBB1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2367694A-07D4-488D-9CF3-209BB53DF31D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2367694A-07D4-488D-9CF3-209BB53DF31D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2367694A-07D4-488D-9CF3-209BB53DF31D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2367694A-07D4-488D-9CF3-209BB53DF31D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D8CD368-5BBB-427D-B0E9-4AC9149AF767}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D8CD368-5BBB-427D-B0E9-4AC9149AF767}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D8CD368-5BBB-427D-B0E9-4AC9149AF767}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D8CD368-5BBB-427D-B0E9-4AC9149AF767}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7E8008CD-2DF8-4F4B-AEB2-185C8845CC80}
+	EndGlobalSection
+EndGlobal
