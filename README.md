@@ -88,6 +88,10 @@ With the aforementioned in mind, the scripts support the following features, the
 
 ```capture``` - This triggers the shutter, and the image is stored on the Camera if successful. Be advised that the reference projects used to make the projects contained in this repo use live-download and have working examples to download the captured image immediately from the camera. However, this repo does not have code to use this facility as it is slow and it comes with a timeliness expense that is not acceptable during the 2-4 minute window of shooting within a solar eclipse. Other modes of operation also exist where the image is not saved by the Camera and held only within the internal buffer; some cameras will run out of working RAM quickly in this scenario, so proceed with caution if you modify how *capture* works.
 
+### Wait
+
+```wait 5``` - This causes script execution to pause for the number of seconds specified. During ths time, no commands will be dispatched by the hub to the console driver.
+
 ### Loop
 
 ```loop:``` / ```loop: 5``` - This will cause the remainder of the script file to be interpreted as a block of instructions to be repeated a number of times or indefinitely. Theoretically the parser should handle multiple sections, but this is currently untested.

@@ -3,15 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34316.72
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NikonCSWrapper", "NikonCSWrapper\NikonCSWrapper.csproj", "{B3448397-C794-4110-B974-5B0B2D8E8A45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NikonCSWrapper", "NikonCSWrapper\NikonCSWrapper.csproj", "{B3448397-C794-4110-B974-5B0B2D8E8A45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NikonConsoleDriver", "NikonConsoleDriver\NikonConsoleDriver.csproj", "{77E80F7A-BB50-4804-88AE-8D9180DA4EF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NikonConsoleDriver", "NikonConsoleDriver\NikonConsoleDriver.csproj", "{77E80F7A-BB50-4804-88AE-8D9180DA4EF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NikonController", "NikonController\NikonController.csproj", "{EFCE2E58-0B1F-4789-B366-A158238DBB1D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NikonController", "NikonController\NikonController.csproj", "{EFCE2E58-0B1F-4789-B366-A158238DBB1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NikonHub", "NikonHub\NikonHub.csproj", "{2367694A-07D4-488D-9CF3-209BB53DF31D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NikonHub", "NikonHub\NikonHub.csproj", "{2367694A-07D4-488D-9CF3-209BB53DF31D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{77E80F7A-BB50-4804-88AE-8D9180DA4EF3} = {77E80F7A-BB50-4804-88AE-8D9180DA4EF3}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NikonScript", "NikonScript\NikonScript.csproj", "{9D8CD368-5BBB-427D-B0E9-4AC9149AF767}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NikonScript", "NikonScript\NikonScript.csproj", "{9D8CD368-5BBB-427D-B0E9-4AC9149AF767}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Linqpads", "Linqpads", "{25F6E948-9B38-43A0-8D9C-9D4FBCF685AB}"
 	ProjectSection(SolutionItems) = preProject

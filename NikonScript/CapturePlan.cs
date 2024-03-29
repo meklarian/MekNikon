@@ -15,6 +15,7 @@ namespace NikonScript
         protected Statement? _planCurrent = null;
         protected bool _cancelPlan = false;
         protected object _internalLock = new ();
+        protected ManualResetEvent _signalExit = new(false);
 
         public void Parse(string[] planContent)
         {
@@ -123,7 +124,8 @@ namespace NikonScript
                                     throw new ArgumentException($"encountered unknown camera \"{parts[1]}\"");
                             }
                             Statement statementConnect = new Statement();
-                            statementConnect.invocation = line;
+                            statementConnect.cmd = "connect";
+                            statementConnect.invocation = $"connect {parts[1]}";
                             appendStatement(statementConnect);
                             break;
                         case "set_aperture":
@@ -139,6 +141,7 @@ namespace NikonScript
                             var matchAperture = reAperture.Match(parts[1]);
                             decimal dAperture = decimal.Parse(matchAperture.Groups[3].Value);
                             Statement statementSetAperture = new Statement();
+                            statementSetAperture.cmd = "set_aperture";
                             statementSetAperture.invocation = $"set_aperture {dAperture}";
                             appendStatement(statementSetAperture);
                             break;
@@ -154,6 +157,7 @@ namespace NikonScript
                             }
                             var matchIso = reIso.Match(parts[1]);
                             Statement statementSetIso = new Statement();
+                            statementSetIso.cmd = "set_iso";
                             statementSetIso.invocation = $"set_iso {matchIso.Groups[0].Value}";
                             appendStatement(statementSetIso);
                             break;
@@ -169,6 +173,7 @@ namespace NikonScript
                             }
                             var matchShutter = reShutter.Match(parts[1]);
                             Statement statementSetShutter = new Statement();
+                            statementSetShutter.cmd = "set_shutter";
                             statementSetShutter.invocation = $"set_Shutter {matchShutter.Groups[1].Value}";
                             appendStatement(statementSetShutter);
                             break;
@@ -178,8 +183,25 @@ namespace NikonScript
                                 throw new ArgumentException($"encountered unsupported syntax for statement \"{line}\" to trigger capture/shutter");
                             }
                             Statement statementCapture = new Statement();
+                            statementCapture.cmd = "capture";
                             statementCapture.invocation = $"capture";
                             appendStatement(statementCapture);
+                            break;
+                        case "wait":
+                            if (parts.Length != 2)
+                            {
+                                throw new ArgumentException($"encountered unsupported syntax for statement \"{line}\" for wait statement");
+                            }
+                            int checkDuration;
+                            if (!int.TryParse(parts[1], out checkDuration) || (checkDuration < 0))
+                            {
+                                throw new ArgumentException($"dureation \"{parts[1]}\" specified for wait statement is disallowed or not recognized");
+                            }
+                            Statement statementWait = new Statement();
+                            statementWait.cmd = "wait";
+                            statementWait.intParam = checkDuration;
+                            statementWait.invocation = $"wait {checkDuration}";
+                            appendStatement(statementWait);
                             break;
                         default:
                             throw new ArgumentException($"encountered unsupported statement \"{line}\"");
@@ -224,6 +246,34 @@ namespace NikonScript
                     }
                 };
 
+                Func<Statement, bool> fnSpecialCommandHandled = (cmd) =>
+                {
+                    switch(cmd.cmd)
+                    {
+                        case "wait":
+                            if(cmd.intParam.HasValue)
+                            {
+                                Console.ForegroundColor = ConsoleColor.Gray;
+                                Console.WriteLine($"waiting {cmd.intParam.Value} seconds");
+                                Console.ForegroundColor = ConsoleColor.White;
+                                if(_signalExit.WaitOne(cmd.intParam.Value * 1000))
+                                {
+                                    if (null != remote)
+                                    {
+                                        remote("disconnect");
+                                    }
+                                    Stop();
+                                }
+                                Console.ForegroundColor = ConsoleColor.Gray;
+                                Console.WriteLine($"wait completed");
+                                Console.ForegroundColor = ConsoleColor.White;
+                            }
+                            return true;
+                        default:
+                            return false;
+                    }
+                };
+
                 var maybeLoop = _planCurrent as LoopSegment;
                 if (maybeLoop != null)
                 {
@@ -237,28 +287,30 @@ namespace NikonScript
                                 throw new InvalidOperationException("nested loops not supported yet for capture plans");
                             }
 
-                            lock (_internalLock)
+                            if (!fnSpecialCommandHandled(_planInner))
                             {
-                                remote = _dispatcher;
-                                if (null == remote)
+                                lock (_internalLock)
                                 {
+                                    remote = _dispatcher;
+                                    if (null == remote)
+                                    {
+                                        return false;
+                                    }
+                                }
+
+                                var response = remote(_planInner.invocation);
+                                if (!string.Equals((response ?? string.Empty).ToLower(), "ready"))
+                                {
+                                    Stop();
                                     return false;
                                 }
-                            }
 
-                            var response = remote(_planInner.invocation);
-                            if (!string.Equals((response ?? string.Empty).ToLower(), "ready"))
-                            {
-                                Stop();
-                                return false;
+                                bool shouldCancel = false;
+                                lock (_internalLock)
+                                {
+                                    shouldCancel = _cancelPlan;
+                                }
                             }
-
-                            bool shouldCancel = false;
-                            lock(_internalLock)
-                            {
-                                shouldCancel = _cancelPlan;
-                            }
-
 
                             _planInner = _planInner.next;
                         }
@@ -277,20 +329,23 @@ namespace NikonScript
                 }
                 else
                 {
-                    lock (_internalLock)
+                    if (!fnSpecialCommandHandled(_planCurrent))
                     {
-                        remote = _dispatcher;
-                        if (null == remote)
+                        lock (_internalLock)
                         {
+                            remote = _dispatcher;
+                            if (null == remote)
+                            {
+                                return;
+                            }
+                        }
+
+                        var response = remote(_planCurrent.invocation);
+                        if (!string.Equals((response ?? string.Empty).ToLower(), "ready"))
+                        {
+                            Stop();
                             return;
                         }
-                    }
-
-                    var response = remote(_planCurrent.invocation);
-                    if (!string.Equals((response ?? string.Empty).ToLower(), "ready"))
-                    {
-                        Stop();
-                        return;
                     }
                 }
 
@@ -301,6 +356,7 @@ namespace NikonScript
 
         public void Stop()
         {
+            _signalExit.Set();
             var finalDispatch = _dispatcher;
             lock (_internalLock)
             {
