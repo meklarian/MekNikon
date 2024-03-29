@@ -109,6 +109,11 @@ namespace NikonScript
                 {
                     switch (parts[0])
                     {
+                        case "rem":
+                        case "#":
+                        case "//":
+                            // These are comments and don't get handled by the script host.
+                            break;
                         case "connect":
                             if (parts.Length != 2)
                             {
@@ -203,6 +208,14 @@ namespace NikonScript
                             statementWait.invocation = $"wait {checkDuration}";
                             appendStatement(statementWait);
                             break;
+                        case "echo":
+                        case "print":
+                            Statement statementEcho = new Statement();
+                            statementEcho.cmd = "print";
+                            statementEcho.stringParam = line.Substring(parts[0].Length + 1);
+                            statementEcho.invocation = $"print {statementEcho.stringParam}";
+                            appendStatement(statementEcho);
+                            break;
                         default:
                             throw new ArgumentException($"encountered unsupported statement \"{line}\"");
                     }
@@ -269,6 +282,16 @@ namespace NikonScript
                                 Console.ForegroundColor = ConsoleColor.White;
                             }
                             return true;
+                        case "print":
+                            if(!string.IsNullOrWhiteSpace(cmd.stringParam))
+                            {
+                                // TODO: maybe add real console color support?
+                                Console.ForegroundColor = ConsoleColor.Magenta;
+                                Console.WriteLine($"{cmd.stringParam}");
+                                Console.ForegroundColor = ConsoleColor.White;
+                            }
+                            return true;
+                            break;
                         default:
                             return false;
                     }

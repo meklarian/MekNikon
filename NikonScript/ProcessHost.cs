@@ -39,13 +39,13 @@ namespace NikonScript
             {
                 _remote.StandardInput.WriteLine(cmd);
             }
-            catch(IOException ioex)
+            catch (IOException ioex)
             {
                 return ioex.ToString();
             }
 
             // super special case
-            if("disconnect".Equals(cmd))
+            if ("disconnect".Equals(cmd))
             {
                 Thread.Yield();
                 return "(disconnecting)";
@@ -55,18 +55,26 @@ namespace NikonScript
             StringBuilder sb = new StringBuilder();
             do
             {
-                var line = _remote.StandardOutput.ReadLine() ?? string.Empty;
-                var scan = line.ToLower();
-                if (!scan.Equals("ready"))
+                try
                 {
-                    sb.AppendLine(line);
-                    if (scan.Contains("exception")) {
-                        break;
+                    var line = _remote.StandardOutput.ReadLine() ?? string.Empty;
+                    var scan = line.ToLower();
+                    if (!scan.Equals("ready"))
+                    {
+                        sb.AppendLine(line);
+                        if (scan.Contains("exception"))
+                        {
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        ready = true;
                     }
                 }
-                else
+                catch(IOException ioex)
                 {
-                    ready = true;
+                    return ioex.ToString();
                 }
             }
             while (!ready);
@@ -98,18 +106,19 @@ namespace NikonScript
 
         public void RunPlan(string planFile)
         {
-            if(_remote == null) { return; }
-            if(_worker != null)
+            if (_remote == null) { return; }
+            if (_worker != null)
             {
                 throw new InvalidOperationException($"plan launched twice, second invocation is \"{planFile}\"");
             }
 
-            if(!File.Exists(planFile))
+            if (!File.Exists(planFile))
             {
                 return;
             }
 
-            _worker = new Thread(() => {
+            _worker = new Thread(() =>
+            {
                 var planCommands = File.ReadAllLines(planFile);
 
                 _plan = new CapturePlan(planCommands);
@@ -125,7 +134,7 @@ namespace NikonScript
 
         public void StopPlan()
         {
-            if(null == _plan) { return; }
+            if (null == _plan) { return; }
 
             _plan.Stop();
             _worker?.Join();

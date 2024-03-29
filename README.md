@@ -92,6 +92,14 @@ With the aforementioned in mind, the scripts support the following features, the
 
 ```wait 5``` - This causes script execution to pause for the number of seconds specified. During ths time, no commands will be dispatched by the hub to the console driver.
 
+### Rem (Remark, Comment)
+
+```rem this is a comment``` / ```# this is also a comment``` / ```// this is a comment too``` - These declarations are ignored by the script parser, which can be used for in-situ annotations in the scripts. During plan parsing, these comments will not hydrate as script statements.
+
+### Print (Print to Console)
+
+```print hello world``` / ```echo hello world``` - These statements write to the stdout / console of the hub and do not cause any statements to be sent to the console driver.
+
 ### Loop
 
 ```loop:``` / ```loop: 5``` - This will cause the remainder of the script file to be interpreted as a block of instructions to be repeated a number of times or indefinitely. Theoretically the parser should handle multiple sections, but this is currently untested.
