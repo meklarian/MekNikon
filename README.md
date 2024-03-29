@@ -62,6 +62,9 @@ With the aforementioned in mind, the scripts support the following features, the
 * Set Aperture
 * Set Shutter Speed
 * Capture (take a picture)
+* Wait (Pause execution)
+* Comments
+* Print Statements (for the Hub)
 * Declare a loop that runs continuously or N times, this loop can contain any of the *set* commands or *capture*
 
 ### Connect
